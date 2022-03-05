@@ -12,3 +12,13 @@
 .messages {
     padding: 10px;
 }
+.newMessage {
+    grid-column: 2;
+    width: 150px;
+    margin-bottom: 20px;
+}
+ .btnNewMessage {
+     grid-column: 2;
+     width: 100px;
+     cursor: pointer;
+ }
