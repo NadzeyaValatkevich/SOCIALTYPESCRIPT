@@ -1,3 +1,7 @@
+import {addPostActionCreator, profileReducer, upDateNewPostActionCreator} from "./profile-Reducer";
+import {addNewMessageActionCreator, dialogsReducer, updateNewMessageActionCreator} from "./dialogs-Reducer";
+import {sidebarReducer} from "./sidebar-Reducer";
+
 export type MessageType = {
     id: number,
     message: string
@@ -25,12 +29,12 @@ export type DialogsPageType = {
     newMessagesText: string
 };
 
-type SidebarType = {};
+export type SidebarPageType = {};
 
 export type RootStateType = {
     profilePage: ProfilePageType,
     dialogsPage: DialogsPageType,
-    sidebar: SidebarType
+    sidebarPage: SidebarPageType
 }
 
 export type StoreType = {
@@ -50,34 +54,6 @@ export type ActionsType =
     | ReturnType<typeof upDateNewPostActionCreator>
     | ReturnType<typeof addNewMessageActionCreator>
     | ReturnType<typeof updateNewMessageActionCreator>
-
-export const addPostActionCreator = (postMessage: string) => {
-    return {
-        type: "ADD-NEW-POST",
-        postMessage: postMessage
-    } as const
-}
-
-export const upDateNewPostActionCreator = (newText: string) => {
-    return {
-        type: 'UP-DATE-NEW-POST',
-        newText: newText
-    } as const
-}
-
-export const addNewMessageActionCreator = (newMessage: string) => {
-    return {
-        type: 'ADD-NEW-MESSAGE',
-        newMessage: newMessage
-    } as const
-}
-
-export const updateNewMessageActionCreator = (messageText:string) => {
-    return {
-        type: 'UPDATE-NEW-MESSAGE',
-        messageText: messageText
-    } as const
-}
 
 export const store: StoreType = {
     _state: {
@@ -103,7 +79,7 @@ export const store: StoreType = {
             ],
             newMessagesText: ''
         },
-        sidebar: {}
+        sidebarPage: {}
     },
     updateNewMessage(messageText: string) {
         this._state.dialogsPage.newMessagesText = messageText
@@ -133,21 +109,12 @@ export const store: StoreType = {
         return this._state
     },
     dispatch(action) {
-        if (action.type === 'UPDATE-NEW-MESSAGE') {
-            this._state.dialogsPage.newMessagesText = action.messageText
-            this._rerenderTree()
-        } else if (action.type === 'ADD-NEW-MESSAGE') {
-            const newMessageFriend: MessageType = {id: 4, message: action.newMessage};
-            this._state.dialogsPage.messages.push(newMessageFriend);
-            this._rerenderTree()
-        } else if (action.type === 'UP-DATE-NEW-POST') {
-            this._state.profilePage.newPostText = action.newText;
-            this._rerenderTree()
-        } else if (action.type === 'ADD-NEW-POST') {
-            const newPost: PostType = {id: 5, message: action.postMessage, likesCount: 0};
-            this._state.profilePage.posts.push(newPost);
-            this._rerenderTree()
-        }
+
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+        this._state.sidebarPage = sidebarReducer(this._state.sidebarPage, action);
+
+        this._rerenderTree()
     }
 }
 
