@@ -1,4 +1,3 @@
-
 export type MessageType = {
     id: number,
     message: string
@@ -35,7 +34,7 @@ export type RootStateType = {
 }
 
 export type StoreType = {
-    _state:RootStateType,
+    _state: RootStateType,
     updateNewMessage: (messageText: string) => void,
     addNewMessage: (newMessage: string) => void,
     updateNewPost: (newText: string) => void,
@@ -46,25 +45,39 @@ export type StoreType = {
     dispatch: (action: ActionsType) => void
 }
 
-export type ActionsType = updateNewMessageActionType | addNewMessageActionType | updateNewPostActionType | addNewPostActionType
+export type ActionsType =
+    ReturnType<typeof addPostActionCreator>
+    | ReturnType<typeof upDateNewPostActionCreator>
+    | ReturnType<typeof addNewMessageActionCreator>
+    | ReturnType<typeof updateNewMessageActionCreator>
 
-type updateNewMessageActionType = {
-    type: 'UPDATE-NEW-MESSAGE',
-    messageText: string
-};
+export const addPostActionCreator = (postMessage: string) => {
+    return {
+        type: "ADD-NEW-POST",
+        postMessage: postMessage
+    } as const
+}
 
-type addNewMessageActionType = {
-    type: 'ADD-NEW-MESSAGE',
-    newMessage: string
-};
-type updateNewPostActionType = {
-    type: 'UP-DATE-NEW-POST',
-    newText: string
-};
-type addNewPostActionType = {
-    type: 'ADD-NEW-POST',
-    postMessage: string
-};
+export const upDateNewPostActionCreator = (newText: string) => {
+    return {
+        type: 'UP-DATE-NEW-POST',
+        newText: newText
+    } as const
+}
+
+export const addNewMessageActionCreator = (newMessage: string) => {
+    return {
+        type: 'ADD-NEW-MESSAGE',
+        newMessage: newMessage
+    } as const
+}
+
+export const updateNewMessageActionCreator = (messageText:string) => {
+    return {
+        type: 'UPDATE-NEW-MESSAGE',
+        messageText: messageText
+    } as const
+}
 
 export const store: StoreType = {
     _state: {
@@ -120,17 +133,17 @@ export const store: StoreType = {
         return this._state
     },
     dispatch(action) {
-        if(action.type === 'UPDATE-NEW-MESSAGE') {
+        if (action.type === 'UPDATE-NEW-MESSAGE') {
             this._state.dialogsPage.newMessagesText = action.messageText
             this._rerenderTree()
-        } else if(action.type === 'ADD-NEW-MESSAGE') {
+        } else if (action.type === 'ADD-NEW-MESSAGE') {
             const newMessageFriend: MessageType = {id: 4, message: action.newMessage};
             this._state.dialogsPage.messages.push(newMessageFriend);
             this._rerenderTree()
-        } else if(action.type === 'UP-DATE-NEW-POST') {
+        } else if (action.type === 'UP-DATE-NEW-POST') {
             this._state.profilePage.newPostText = action.newText;
             this._rerenderTree()
-        } else if(action.type === 'ADD-NEW-POST') {
+        } else if (action.type === 'ADD-NEW-POST') {
             const newPost: PostType = {id: 5, message: action.postMessage, likesCount: 0};
             this._state.profilePage.posts.push(newPost);
             this._rerenderTree()
