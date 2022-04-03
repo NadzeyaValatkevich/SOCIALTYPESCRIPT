@@ -1,24 +1,33 @@
 import React from 'react';
 import {addPostActionCreator, upDateNewPostActionCreator} from "../../../redux/profile-Reducer";
-import { StoreType} from "../../../redux/store";
+import {StoreType} from "../../../redux/store";
 import MyPosts from "./MyPosts";
+import {StoreContext} from "../../../StoreContext";
 
-type MyPostsContainerPropsType = {
-    store: StoreType,
-}
+// type MyPostsContainerPropsType = {
+//     store: StoreType,
+// }
 
-export const MyPostsContainer = (props: MyPostsContainerPropsType) => {
-    const addPost = () => {
-        props.store.dispatch(addPostActionCreator(props.store.getState().profilePage.newPostText))
-        props.store.dispatch({type:'UP-DATE-NEW-POST', newText: ''})
-    };
-
-     const newTextChangeHandler = (text: string) => {
-         props.store.dispatch(upDateNewPostActionCreator(text))
-     }
+export const MyPostsContainer = () => {
 
     return (
-        <MyPosts upDateNewPost={newTextChangeHandler} addPost={addPost} posts={props.store.getState().profilePage.posts} newPostText={props.store.getState().profilePage.newPostText}/>
+        <StoreContext.Consumer>
+            {(store:StoreType) => {
+                const addPost = () => {
+                    store.dispatch(addPostActionCreator(store.getState().profilePage.newPostText))
+                    store.dispatch({type: 'UP-DATE-NEW-POST', newText: ''})
+                };
+
+                const newTextChangeHandler = (text: string) => {
+                    store.dispatch(upDateNewPostActionCreator(text))
+                }
+                return <MyPosts upDateNewPost={newTextChangeHandler}
+                         addPost={addPost}
+                         posts={store.getState().profilePage.posts}
+                         newPostText={store.getState().profilePage.newPostText}/>
+            }
+        }
+        </StoreContext.Consumer>
     );
 };
 

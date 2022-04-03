@@ -4,12 +4,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import {Provider} from "./StoreContext";
 
 
 const  rerenderTree = () => {
     ReactDOM.render(
-        <App store={store}/>,
-        document.getElementById('root')
+        <Provider store={store}>
+            <App/>
+        </Provider>,
+    document.getElementById('root')
     );
 };
 
