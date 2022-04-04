@@ -1,15 +1,22 @@
-import {ActionsType, PostType, ProfilePageType} from "./store";
+import {ActionsType} from "./store";
 
+export type PostType = {
+    id: number,
+    message: string,
+    likesCount: number
+};
+
+export type InitialStateType = typeof initialState
 
 const initialState = {
     posts: [
         {id: 1, message: 'Hi, how are you', likesCount: 20},
         {id: 2, message: "It's my first post", likesCount: 10}
-    ],
+    ] as Array<PostType>,
     newPostText: ''
 };
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionsType) => {
+export const profileReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'UP-DATE-NEW-POST':
             state.newPostText = action.newText;

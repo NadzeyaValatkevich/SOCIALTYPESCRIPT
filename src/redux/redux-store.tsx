@@ -16,10 +16,12 @@ type StoreType = {
     dispatch: (action: ActionsType) => void
 }
 
-const reducers = combineReducers({
+const rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage:dialogsReducer,
     sidebarPage:sidebarReducer
-})
+});
 
-export const store: StoreType = createStore(reducers);
+export type AppStateType = ReturnType<typeof rootReducer>
+
+export const store: StoreType = createStore(rootReducer);

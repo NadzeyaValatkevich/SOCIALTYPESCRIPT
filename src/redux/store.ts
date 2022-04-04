@@ -2,23 +2,23 @@ import {addPostActionCreator, profileReducer, upDateNewPostActionCreator} from "
 import {addNewMessageActionCreator, dialogsReducer, updateNewMessageActionCreator} from "./dialogs-Reducer";
 import {sidebarReducer} from "./sidebar-Reducer";
 
-export type MessageType = {
+type MessageType = {
     id: number,
     message: string
 };
 
-export type DialogType = {
+type DialogType = {
     id: number,
     name: string
 };
 
-export type PostType = {
+type PostType = {
     id: number,
     message: string,
     likesCount: number
 };
 
-export type ProfilePageType = {
+type ProfilePageType = {
     posts: Array<PostType>,
     newPostText: string
 };
@@ -31,7 +31,7 @@ export type DialogsPageType = {
 
 export type SidebarPageType = {};
 
-export type RootStateType = {
+type RootStateType = {
     profilePage: ProfilePageType,
     dialogsPage: DialogsPageType,
     sidebarPage: SidebarPageType

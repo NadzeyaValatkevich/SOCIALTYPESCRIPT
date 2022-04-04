@@ -1,36 +1,67 @@
-import React from 'react';
-import {addNewMessageActionCreator, updateNewMessageActionCreator} from "../../redux/dialogs-Reducer";
-import {StoreType} from "../../redux/store";
+import {addNewMessageActionCreator, InitialStateType, updateNewMessageActionCreator} from "../../redux/dialogs-Reducer";
 import Dialogs from "./Dialogs";
-import {StoreContext} from "../../StoreContext";
+// import {StoreContext} from "../../StoreContext";
+import {connect} from "react-redux";
+import {AppStateType} from "@/redux/redux-store";
+import {Dispatch} from "redux";
 
 // type DialogsMessagesPropsType = {
 //     store: StoreType
 // }
 
-const DialogsContainer = () => {
+// const DialogsContainer = () => {
+//
+//     return (
+//         <StoreContext.Consumer>
+//             { (store: StoreType) => {
+//                 const addNewMessage = () => {
+//                     store.dispatch(addNewMessageActionCreator(store.getState().dialogsPage.newMessagesText))
+//                     store.dispatch(updateNewMessageActionCreator(''))
+//                 };
+//
+//
+//                 const newMessageChangeHandler = (messageText: string) => {
+//                     store.dispatch(updateNewMessageActionCreator(messageText))
+//                 };
+//                 return (
+//                     <Dialogs
+//                         updateNewMessage={newMessageChangeHandler}
+//                         addNewMessage={addNewMessage}
+//                         dialogsPage={store.getState().dialogsPage}/>
+//                 )
+//             }}
+//         </StoreContext.Consumer>
+//     )
+// };
+type MapStatePropsType = {
+    dialogsPage: InitialStateType
+};
+ type MapDispatchPropsType = {
+     updateNewMessage: (messageText:string) => void,
+     addNewMessage: () => void
+ };
 
-    return (
-        <StoreContext.Consumer>
-            { (store: StoreType) => {
-                const addNewMessage = () => {
-                    store.dispatch(addNewMessageActionCreator(store.getState().dialogsPage.newMessagesText))
-                    store.dispatch(updateNewMessageActionCreator(''))
-                };
+ export type DialogsPropsType = MapStatePropsType & MapDispatchPropsType;
 
-
-                const newMessageChangeHandler = (messageText: string) => {
-                    store.dispatch(updateNewMessageActionCreator(messageText))
-                };
-                return (
-                    <Dialogs
-                        updateNewMessage={newMessageChangeHandler}
-                        addNewMessage={addNewMessage}
-                        dialogsPage={store.getState().dialogsPage}/>
-                )
-            }}
-        </StoreContext.Consumer>
-    )
+const mapStateToProps = (state:AppStateType): MapStatePropsType => {
+    return {
+        dialogsPage: state.dialogsPage
+    }
 };
 
-export default DialogsContainer;
+
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
+    return {
+        updateNewMessage: (messageText:string) => {
+            dispatch(updateNewMessageActionCreator(messageText))
+        },
+
+        addNewMessage: () => {
+            dispatch(addNewMessageActionCreator(store.getState().dialogsPage.newMessagesText))
+            dispatch(updateNewMessageActionCreator(''))
+        }
+    }
+}
+
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+
