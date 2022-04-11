@@ -58,7 +58,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
 
         addPost: () => {
             dispatch(addPostActionCreator(store.getState().profilePage.newPostText))
-            dispatch({type: 'UP-DATE-NEW-POST', newText: ''})
+            // dispatch({type: 'UP-DATE-NEW-POST', newText: ''})
         }
     }
 }
