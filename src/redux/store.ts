@@ -7,7 +7,7 @@ type MessageType = {
     message: string
 };
 
-type DialogType = {
+export type DialogType = {
     id: number,
     name: string
 };
@@ -31,7 +31,7 @@ export type DialogsPageType = {
 
 export type SidebarPageType = {};
 
-type RootStateType = {
+export type RootStateType = {
     profilePage: ProfilePageType,
     dialogsPage: DialogsPageType,
     sidebarPage: SidebarPageType

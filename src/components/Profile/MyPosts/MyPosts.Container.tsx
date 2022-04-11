@@ -1,7 +1,7 @@
 import {addPostActionCreator, PostType, upDateNewPostActionCreator} from "../../../redux/profile-Reducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
-import {AppStateType} from "@/redux/redux-store";
+import {AppStateType, store} from "../../../redux/redux-store";
 import {Dispatch} from "redux";
 
 // type MyPostsContainerPropsType = {
@@ -36,7 +36,7 @@ type MapStatePropsType = {
 };
 
 type MapDispatchPropsType = {
-    upDateNewPost: (text:string) => string,
+    upDateNewPost: (text:string) => void,
     addPost: () => void
 
 };

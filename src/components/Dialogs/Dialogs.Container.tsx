@@ -2,7 +2,7 @@ import {addNewMessageActionCreator, InitialStateType, updateNewMessageActionCrea
 import Dialogs from "./Dialogs";
 // import {StoreContext} from "../../StoreContext";
 import {connect} from "react-redux";
-import {AppStateType} from "@/redux/redux-store";
+import {AppStateType, store} from "../../redux/redux-store";
 import {Dispatch} from "redux";
 
 // type DialogsMessagesPropsType = {
