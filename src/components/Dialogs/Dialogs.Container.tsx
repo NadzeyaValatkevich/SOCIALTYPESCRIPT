@@ -58,7 +58,6 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
 
         addNewMessage: () => {
             dispatch(addNewMessageActionCreator(store.getState().dialogsPage.newMessagesText))
-            dispatch(updateNewMessageActionCreator(''))
         }
     }
 }
