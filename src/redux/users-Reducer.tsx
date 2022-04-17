@@ -1,10 +1,10 @@
 export type UsersType = {
     id: number,
-    photoUrl: string
-    fullName: string,
+    photos: string
+    name: string,
     status: string,
     followed: boolean,
-    location: {city: string, country: string}
+    // location: {city: string, country: string}
 };
 
 export type InitialStateType = typeof initialState
