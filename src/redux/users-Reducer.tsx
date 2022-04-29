@@ -13,7 +13,9 @@ export type ActionsUsersType =
     ReturnType<typeof followAC>
     | ReturnType<typeof unFollowAC>
     | ReturnType<typeof setUsersAC>
-    // | ReturnType<typeof updateNewMessageActionCreator>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setUsersTotalCountAC>
+// | ReturnType<typeof updateNewMessageActionCreator>
 
 const initialState = {
     users: [
@@ -22,6 +24,9 @@ const initialState = {
         // {id: 3, photoUrl: 'https://ns328286.ip-37-187-113.eu/ew/wallpapers/800x480/12571_800x480.jpg', fullName: 'Alesha', status: 'I like sport',followed: false,  location: {city: 'Moscow', country: 'Russia'}},
 
     ] as Array<UsersType>,
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 2,
 };
 
 export const usersReducer = (state: InitialStateType = initialState, action: ActionsUsersType): InitialStateType => {
@@ -45,11 +50,19 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
                     }
                     return u;
                 })
-            }
+            };
         case "SET_USERS":
-            return {...state, users: [...state.users, ...action.users]}
-
-
+            return {...state, users: action.users};
+        case "SET-CURRENT-PAGE":
+            return {
+                ...state,
+                currentPage: action.currentPage
+            };
+        case "SET-TOTAL-USERS-COUNT":
+            return {
+                ...state,
+                totalUsersCount: action.count
+            };
         default: return  state;
     }
 };
@@ -59,18 +72,35 @@ export const followAC = (userId:number) => {
         type: "FOLLOW",
         userId
     } as const
-}
+};
 
 export const unFollowAC = (userId:number) => {
     return {
         type: 'UNFOLLOW',
         userId
     } as const
-}
+};
 
+//set-аем всех users
 export const setUsersAC = (users: Array<UsersType>) => {
     return {
         type: 'SET_USERS',
         users
     } as const
-}
+};
+
+//изменяем текущую страничку, по которой кликаем
+export const setCurrentPageAC = ((currentPage:number) => {
+    return {
+        type:"SET-CURRENT-PAGE",
+        currentPage,
+    } as const
+});
+
+//устанавливаем общее количество пользователей
+export const setUsersTotalCountAC = ((totalUsersCount: number) => {
+    return {
+        type:"SET-TOTAL-USERS-COUNT",
+        count: totalUsersCount,
+    } as const
+})
