@@ -4,7 +4,6 @@ export type UsersType = {
     name: string,
     status: string,
     followed: boolean,
-    // location: {city: string, country: string}
 };
 
 export type InitialStateType = typeof initialState
@@ -27,6 +26,8 @@ const initialState = {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 2,
+    isFetching: true,
+
 };
 
 export const usersReducer = (state: InitialStateType = initialState, action: ActionsUsersType): InitialStateType => {
