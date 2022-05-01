@@ -24,11 +24,11 @@ type UsersPropsType = {
 return (
     <div>
         <div>
-            {pages.map((p) => {
-                return <span className={props.currentPage === p && styles.selectedPage}
+            {pages.map((p, index) => {
+                return <span className={props.currentPage === p ? styles.selectedPage : undefined}
                              onClick={(e) => {
                                  props.onPageChanged(p)
-                             }}>{p}</span>
+                             }} key={index}>{p}</span>
             })}
         </div>
         {props.usersPage.users.map((u, index) => <div key={index}>
