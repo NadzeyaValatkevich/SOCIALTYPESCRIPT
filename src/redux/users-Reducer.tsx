@@ -14,6 +14,7 @@ export type ActionsUsersType =
     | ReturnType<typeof setUsersAC>
     | ReturnType<typeof setCurrentPageAC>
     | ReturnType<typeof setUsersTotalCountAC>
+    | ReturnType<typeof toggleIsFetchingAC>
 // | ReturnType<typeof updateNewMessageActionCreator>
 
 const initialState = {
@@ -64,6 +65,11 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
                 ...state,
                 totalUsersCount: action.count
             };
+        case "TOGGLE-IS-FETCHING":
+            return {
+                ...state,
+                isFetching: action.isFetching
+            }
         default: return  state;
     }
 };
@@ -104,4 +110,15 @@ export const setUsersTotalCountAC = ((totalUsersCount: number) => {
         type:"SET-TOTAL-USERS-COUNT",
         count: totalUsersCount,
     } as const
-})
+});
+
+export const toggleIsFetchingAC =  ((isFetching: boolean) => {
+    return {
+        type: "TOGGLE-IS-FETCHING",
+        isFetching,
+    } as const
+});
+
+
+
+
