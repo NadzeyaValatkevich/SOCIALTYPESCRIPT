@@ -2,6 +2,7 @@ import React from 'react'
 import styles from "./Users.module.css";
 import userPhoto from "../../assets/images/user_png.png";
 import {InitialStateType} from "../../redux/users-Reducer";
+import {NavLink} from "react-router-dom";
 
 type UsersPropsType = {
     totalUsersCount: number,
@@ -13,29 +14,32 @@ type UsersPropsType = {
     unfollow: (userId: number) => void,
 };
 
-    export const Users = (props: UsersPropsType) => {
+export const Users = (props: UsersPropsType) => {
 
     let pagesCount: number = Math.ceil(props.totalUsersCount / props.pageSize);
     let pages = [];
-    for(let i = 1; i <= pagesCount; i++) {
-    pages.push(i);
-};
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i);
+    }
+    ;
 
-return (
-    <div>
+    return (
         <div>
-            {pages.map((p, index) => {
-                return <span className={props.currentPage === p ? styles.selectedPage : undefined}
-                             onClick={(e) => {
-                                 props.onPageChanged(p)
-                             }} key={index}>{p}</span>
-            })}
-        </div>
-        {props.usersPage.users.map((u, index) => <div key={index}>
+            <div>
+                {pages.map((p, index) => {
+                    return <span className={props.currentPage === p ? styles.selectedPage : undefined}
+                                 onClick={(e) => {
+                                     props.onPageChanged(p)
+                                 }} key={index}>{p}</span>
+                })}
+            </div>
+            {props.usersPage.users.map((u, index) => <div key={index}>
                 <span>
                     <div>
-                    <img alt={'userPhoto'} src={u.photos.small != null ? u.photos.small : userPhoto}
-                         className={styles.userPhoto}/>
+                        <NavLink to={'/profile/ + u.id'}>
+                            <img alt={'userPhoto'} src={u.photos.small != null ? u.photos.small : userPhoto}
+                                 className={styles.userPhoto}/>
+                        </NavLink>
                         </div>
                     <div>
                         {u.followed ?
@@ -47,7 +51,7 @@ return (
                             }}>Follow</button>}
                     </div>
                 </span>
-            <span>
+                <span>
                     <span>
                         <div>{u.name}</div>
                         <div>{u.status}</div>
@@ -57,7 +61,7 @@ return (
                         <div>{"u.location.city"}</div>
                     </span>
                 </span>
-        </div>)}
-    </div>
-)
+            </div>)}
+        </div>
+    )
 }

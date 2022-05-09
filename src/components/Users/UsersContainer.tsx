@@ -57,7 +57,6 @@ export class UsersAPIComponent extends React.Component<UsersPropsType, {}> {
     }
 }
 
-
 type MapStatePropsType = {
     usersPage: InitialStateType,
     pageSize: number,
