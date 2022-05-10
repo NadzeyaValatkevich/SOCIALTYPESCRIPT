@@ -6,7 +6,7 @@ export type PostType = {
     likesCount: number
 };
 
-export type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState;
 
 const initialState = {
     posts: [
