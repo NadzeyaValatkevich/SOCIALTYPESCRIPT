@@ -1,6 +1,7 @@
 import {addPostActionCreator, profileReducer, setUserProfile, upDateNewPostActionCreator} from "./profile-Reducer";
 import {addNewMessageActionCreator, dialogsReducer, updateNewMessageActionCreator} from "./dialogs-Reducer";
 import {sidebarReducer} from "./sidebar-Reducer";
+import {setAuthUserData} from "@/redux/auth-reducer";
 
 type MessageType = {
     id: number,
@@ -56,6 +57,7 @@ export type ActionsType =
     | ReturnType<typeof addNewMessageActionCreator>
     | ReturnType<typeof updateNewMessageActionCreator>
     | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setAuthUserData>
 
 export const store: StoreType = {
     _state: {

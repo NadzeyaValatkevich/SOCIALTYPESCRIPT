@@ -38,7 +38,6 @@ class ProfileContainer extends React.Component<PropsType, {}> {
      componentDidMount() {
 
          let userId = this.props.match.params.userId;
-         console.log(this.props);
          // if(!userId) {
          //     userId = 2;
          // }
@@ -46,7 +45,6 @@ class ProfileContainer extends React.Component<PropsType, {}> {
              .then(response => {
                  //set-аем в reducer
                  this.props.setUserProfile(response.data);
-                 console.log(response)
              })
      }
 

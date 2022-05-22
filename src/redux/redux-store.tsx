@@ -3,6 +3,7 @@ import {profileReducer} from "./profile-Reducer";
 import {dialogsReducer} from "./dialogs-Reducer";
 import {sidebarReducer} from "./sidebar-Reducer";
 import {usersReducer} from "./users-Reducer";
+import {authReducer} from "./auth-reducer";
 // import {ActionsType, RootStateType} from "./store";
 
 // export type StoreType = {
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage:dialogsReducer,
     sidebarPage:sidebarReducer,
-    usersPage: usersReducer
+    usersPage: usersReducer,
+    auth: authReducer,
 });
 
 export type AppStateType = ReturnType<typeof rootReducer>
