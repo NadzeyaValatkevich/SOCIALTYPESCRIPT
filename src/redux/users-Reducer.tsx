@@ -4,6 +4,7 @@ export type UsersType = {
     name: string,
     status: string,
     followed: boolean,
+
 };
 
 export type InitialStateType = typeof initialState
@@ -15,20 +16,17 @@ export type ActionsUsersType =
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof toggleFollowingProgress>
 // | ReturnType<typeof updateNewMessageActionCreator>
 
 const initialState = {
-    users: [
-        // {id: 1, photoUrl: 'https://ns328286.ip-37-187-113.eu/ew/wallpapers/800x480/12571_800x480.jpg', fullName: 'Nadzeya', status: 'I like to read', followed: false,  location: {city: 'Minsk', country: 'Belarus'}},
-        // {id: 2, photoUrl: 'https://ns328286.ip-37-187-113.eu/ew/wallpapers/800x480/12571_800x480.jpg', fullName: 'Lyda', status: 'I like to cook',followed: true,  location: {city: 'Kiev', country: 'Ukraine'}},
-        // {id: 3, photoUrl: 'https://ns328286.ip-37-187-113.eu/ew/wallpapers/800x480/12571_800x480.jpg', fullName: 'Alesha', status: 'I like sport',followed: false,  location: {city: 'Moscow', country: 'Russia'}},
-
-    ] as Array<UsersType>,
+    users: [] as Array<UsersType>,
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 2,
     isFetching: true,
-
+    //dor disabled button
+    followingInProgress: [] as Array<number>,
 };
 
 export const usersReducer = (state: InitialStateType = initialState, action: ActionsUsersType): InitialStateType => {
@@ -69,8 +67,16 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
             return {
                 ...state,
                 isFetching: action.isFetching
+            };
+        case "TOGGLE-IS-FOLLOWING-PROGRESS":
+            return {
+                ...state,
+                followingInProgress: action.isFetching
+                    ? [...state.followingInProgress, action.userId] //добавляем в массив новую id
+                    : state.followingInProgress.filter(id => id != action.userId) //удаляем id
             }
-        default: return  state;
+        default:
+            return  state;
     }
 };
 
@@ -118,6 +124,17 @@ export const toggleIsFetching =  ((isFetching: boolean) => {
         isFetching,
     } as const
 });
+
+//disabled button при отправке запроса
+export const toggleFollowingProgress =  ((isFetching: boolean, userId: number) => {
+    return {
+        type: "TOGGLE-IS-FOLLOWING-PROGRESS",
+        isFetching,
+        userId,
+    } as const
+});
+
+
 
 
 
