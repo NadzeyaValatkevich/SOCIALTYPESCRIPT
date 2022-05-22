@@ -15,3 +15,39 @@ export const usersAPI = {
         });
 }
 };
+
+export const unfollowAPI = {
+    deleteUsers(id: number) {
+        return instance.delete(`follow/${id}`)
+            .then(response => {
+                return response.data
+            });
+    }
+};
+
+export const followAPI = {
+    postUsers(id: number) {
+        return instance.post(`follow/${id}`)
+            .then(response => {
+                return response.data
+            });
+    }
+};
+
+export const loginAPI = {
+    getLoginUser() {
+        return instance.get(`auth/me`)
+            .then(response => {
+                return response.data
+            });
+    }
+};
+
+export const profileAPI = {
+    getProfileUser(userId:string) {
+        return instance.get(`profile/` + userId)
+            .then(response => {
+                return response.data
+            });
+    }
+};
