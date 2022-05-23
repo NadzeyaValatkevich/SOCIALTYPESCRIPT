@@ -1,4 +1,5 @@
 import {ActionsType} from "./store";
+import {usersAPI} from "../api/api";
 
 export type PostType = {
     id: number,
@@ -59,4 +60,12 @@ export const setUserProfile = (profile: any) => {
         type: 'SET-USER-PROFILE',
         profile: profile
     } as const
-}
+};
+
+export const getUserProfile = (userId:number) => (dispatch:any) => {
+    usersAPI.getProfile(userId)
+        .then(data => {
+            //set-аем в reducer
+            dispatch(setUserProfile(data));
+        })
+};

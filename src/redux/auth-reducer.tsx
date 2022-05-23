@@ -1,4 +1,5 @@
 import {ActionsType} from "./store";
+import {authAPI} from "../api/api";
 
 type initialStateAuthType = {
     id: null | string,
@@ -35,4 +36,14 @@ export const setAuthUserData = (id: null | string, email: null | string, login: 
             login: login,
         }
     } as const;
+};
+
+export const getAuthUsersData = () => (dispatch: any) => {
+    authAPI.me()
+        .then(data => {
+            if(data.resultCode === 0) {
+                let {id, email, login} = data.data;
+                dispatch(setAuthUserData(id, email, login))
+            }
+        })
 };
