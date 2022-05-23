@@ -1,3 +1,5 @@
+import {usersAPI} from "../api/api";
+
 export type UsersType = {
     id: number,
     photos: string
@@ -10,8 +12,8 @@ export type UsersType = {
 export type InitialStateType = typeof initialState
 
 export type ActionsUsersType =
-    ReturnType<typeof follow>
-    | ReturnType<typeof unfollow>
+    ReturnType<typeof followSuccess>
+    | ReturnType<typeof unfollowSuccess>
     | ReturnType<typeof setUsers>
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
@@ -80,14 +82,14 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
     }
 };
 
-export const follow = (userId:number) => {
+export const followSuccess = (userId:number) => {
     return {
         type: "FOLLOW",
         userId
     } as const
 };
 
-export const unfollow = (userId:number) => {
+export const unfollowSuccess = (userId:number) => {
     return {
         type: 'UNFOLLOW',
         userId
@@ -133,6 +135,49 @@ export const toggleFollowingProgress =  ((isFetching: boolean, userId: number) =
         userId,
     } as const
 });
+
+//ThunkCreators
+export const getUsers = (currentPage:number, pageSize: number) => {
+    return (dispatch: any) => {
+        //начинаю показывать крутелку
+        dispatch(toggleIsFetching(true));
+        //начни получать мне пользователей
+        usersAPI.getUsers(currentPage, pageSize)
+            .then(data => {
+                dispatch(toggleIsFetching(false));
+                dispatch(setUsers(data.items));
+                dispatch(setTotalUsersCount(data.totalCount));
+            })
+    }
+};
+
+export const follow = (userId: number) => {
+    return (dispatch: any) => {
+        dispatch(toggleFollowingProgress(true, userId));
+        usersAPI.followAPI(userId)
+            .then(data => {
+                if(data.resultCode === 0) {
+                    dispatch(followSuccess(userId))
+                }
+                dispatch(toggleFollowingProgress(false, userId));
+            })
+    }
+};
+
+export const unfollow = (userId: number) => {
+    return (dispatch: any) => {
+        dispatch(toggleFollowingProgress(true, userId));
+        usersAPI.unfollowAPI(userId)
+            .then(data => {
+                if(data.resultCode === 0) {
+                    dispatch(unfollowSuccess(userId))
+                }
+                dispatch(toggleFollowingProgress(false, userId));
+            })
+    }
+};
+
+
 
 
 
