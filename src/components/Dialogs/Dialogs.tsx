@@ -3,12 +3,7 @@ import React, {ChangeEvent} from 'react';
 import Message from "./Message/Message";
 import DialogItem from "./DialogItem/DialogItem";
 import {DialogsPropsType} from "./Dialogs.Container";
-
-// type DialogsMessagesPropsType = {
-//     addNewMessage: () => void,
-//     updateNewMessage: (messageText: string) => void,
-//     dialogsPage: DialogsPageType
-// }
+import {Redirect} from "react-router-dom";
 
 const Dialogs = (props: DialogsPropsType) => {
 
@@ -23,6 +18,8 @@ const Dialogs = (props: DialogsPropsType) => {
     const newMessageChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         props.updateNewMessage(e.currentTarget.value)
     };
+
+    if(!props.isAuth) return <Redirect to={"/login"} />;
 
     return (
         <div className={s.dialogs}>

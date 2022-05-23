@@ -34,7 +34,8 @@ import {Dispatch} from "redux";
 //     )
 // };
 type MapStatePropsType = {
-    dialogsPage: InitialStateType
+    dialogsPage: InitialStateType,
+    isAuth: boolean
 };
  type MapDispatchPropsType = {
      updateNewMessage: (messageText:string) => void,
@@ -45,7 +46,8 @@ type MapStatePropsType = {
 
 const mapStateToProps = (state:AppStateType): MapStatePropsType => {
     return {
-        dialogsPage: state.dialogsPage
+        dialogsPage: state.dialogsPage,
+        isAuth: state.auth.isAuth
     }
 };
 
