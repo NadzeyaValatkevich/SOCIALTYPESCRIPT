@@ -71,7 +71,7 @@ export type ProfilePropsType = MapStatePropsType & MapDispatchPropsType;
      }
  };
 
- export default compose(
+ export default compose<React.ComponentType>(
      connect(mapStateToProps, {getUserProfile}),
      withRouter,
      withAuthRedirect

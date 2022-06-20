@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {AppStateType, store} from "../../redux/redux-store";
 import {compose, Dispatch} from "redux";
 import {withAuthRedirect} from "../../hoc/AuthRedirect";
+import React from "react";
 
 // type DialogsMessagesPropsType = {
 //     store: StoreType
@@ -64,7 +65,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
 };
 
 
-export const DialogsContainer = compose(
+export const DialogsContainer = compose<React.ComponentType>(
     connect(mapStateToProps, mapDispatchToProps),
     withAuthRedirect)
 (Dialogs)
