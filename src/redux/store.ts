@@ -1,4 +1,10 @@
-import {addPostActionCreator, profileReducer, setUserProfile, upDateNewPostActionCreator} from "./profile-Reducer";
+import {
+    addPostActionCreator,
+    profileReducer,
+    setStatus,
+    setUserProfile,
+    upDateNewPostActionCreator
+} from "./profile-Reducer";
 import {addNewMessageActionCreator, dialogsReducer, updateNewMessageActionCreator} from "./dialogs-Reducer";
 import {sidebarReducer} from "./sidebar-Reducer";
 import {setAuthUserData} from "@/redux/auth-reducer";
@@ -22,7 +28,8 @@ type PostType = {
 type ProfilePageType = {
     posts: Array<PostType>,
     newPostText: string,
-    profile: null
+    profile: null,
+    status: string
 };
 
 export type DialogsPageType = {
@@ -58,6 +65,7 @@ export type ActionsType =
     | ReturnType<typeof updateNewMessageActionCreator>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setAuthUserData>
+    | ReturnType<typeof setStatus>
 
 export const store: StoreType = {
     _state: {
@@ -68,6 +76,7 @@ export const store: StoreType = {
             ],
             newPostText: '',
             profile: null,
+            status: ''
         },
         dialogsPage: {
             dialogs: [

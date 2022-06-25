@@ -7,12 +7,14 @@ import {ProfileUsersType} from "../Profile/ProfileContainer";
 
 export type ProfileMiddlePropsType = {
     profile: ProfileUsersType | null,
+    status: string,
+    updateStatus: (status: string) => void
 };
 
 const Profile = (props: ProfileMiddlePropsType) => {
     return (
         <div>
-            <ProfileInfo profile={props.profile}/>
+            <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
             <MyPostsContainer/>
         </div>
     );

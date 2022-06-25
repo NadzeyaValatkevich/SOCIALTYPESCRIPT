@@ -1,5 +1,6 @@
 import {ActionsType} from "./store";
-import {usersAPI} from "../api/api";
+import {profileAPI, usersAPI} from "../api/api";
+import {Dispatch} from "redux";
 
 export type PostType = {
     id: number,
@@ -16,6 +17,7 @@ const initialState = {
     ] as Array<PostType>,
     newPostText: '',
     profile: null,
+    status: ''
 };
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -36,6 +38,9 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
         };
         case 'SET-USER-PROFILE': {
             return {...state, profile: action.profile}
+        };
+        case 'SET-STATUS': {
+            return {...state, status: action.status}
         };
         default: return  state;
     }
@@ -62,10 +67,34 @@ export const setUserProfile = (profile: any) => {
     } as const
 };
 
-export const getUserProfile = (userId:number) => (dispatch:any) => {
+export const setStatus = (status: string) => {
+    return {
+        type: 'SET-STATUS',
+        status
+    } as const
+};
+
+export const getUserProfile = (userId:number) => (dispatch:Dispatch) => {
     usersAPI.getProfile(userId)
         .then(data => {
             //set-аем в reducer
             dispatch(setUserProfile(data));
+        })
+};
+
+export const getStatus = (userId:number) => (dispatch:Dispatch) => {
+    profileAPI.getStatus(userId)
+        .then(data => {
+            //set-аем в reducer
+            dispatch(setStatus(data));
+        })
+};
+
+export const updateStatus = (status:string) => (dispatch:Dispatch) => {
+    profileAPI.updateStatus(status)
+        .then(data => {
+           if(data.resultCode === 0) {
+               dispatch(setStatus(status));
+           }
         })
 };

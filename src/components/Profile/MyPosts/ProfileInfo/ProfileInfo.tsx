@@ -9,13 +9,9 @@ const ProfileInfo = (props: ProfileMiddlePropsType) => {
     } else {
         return (
             <div>
-                {/*<div>*/}
-                {/*    <img src={'https://sun9-44.userapi.com/iKDsFT2dSEKdVaIpGNqFlmyUljV1sgi3Was65A/Nm37RlbsoFU.jpg'}*/}
-                {/*         alt={'nature'}/>*/}
-                {/*</div>*/}
                 <div className={'descriptionBlock'}>
                     <img src={props.profile.photos.large}/>
-                    <ProfileStatus status={'Hello my friends!'}/>
+                    <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
                 </div>
 
             </div>
