@@ -13,7 +13,6 @@ import {ActionsType} from "./store";
  export type InitialStateType = {
     dialogs: Array<DialogType>,
     messages: Array<MessageType>,
-    newMessagesText: string
 };
 
 const initialState: InitialStateType = {
@@ -28,39 +27,25 @@ const initialState: InitialStateType = {
         {id: 1, message: 'Hi'},
         {id: 2, message: 'How are you?'},
         {id: 3, message: 'Good morning!'}
-    ],
-    newMessagesText: ''
+    ]
 };
 
  export const dialogsReducer = (state:InitialStateType = initialState, action:ActionsType): InitialStateType => {
 
      switch (action.type) {
-         case 'UPDATE-NEW-MESSAGE':
-             return {
-                 ...state,
-                 newMessagesText: action.messageText
-             }
          case 'ADD-NEW-MESSAGE':
              return {
                  ...state,
-                 newMessagesText: '',
-                 messages: [...state.messages, {id: 4, message: action.newMessage}]
+                 messages: [...state.messages, {id: 4, message: action.newMessageBody}]
              }
          default:
              return state;
      }
 };
 
-export const addNewMessageActionCreator = (newMessage: string) => {
+export const addNewMessageActionCreator = (newMessageBody: string) => {
     return {
         type: 'ADD-NEW-MESSAGE',
-        newMessage: newMessage
+        newMessageBody
     } as const
-}
-
-export const updateNewMessageActionCreator = (messageText: string) => {
-    return {
-        type: 'UPDATE-NEW-MESSAGE',
-        messageText: messageText
-    } as const
-}
+};

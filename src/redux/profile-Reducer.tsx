@@ -15,25 +15,18 @@ const initialState = {
         {id: 1, message: 'Hi, how are you', likesCount: 20},
         {id: 2, message: "It's my first post", likesCount: 10}
     ] as Array<PostType>,
-    newPostText: '',
     profile: null,
     status: ''
 };
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'UP-DATE-NEW-POST': {
-            return {
-                ...state,
-                newPostText: action.newText
-            };
-        };
         case 'ADD-NEW-POST': {
-            let newPost: PostType = {id: 5, message: action.postMessage, likesCount: 0};
+            let newPost: PostType = {id: 5, message: action.newPostText, likesCount: 0};
             return {
                 ...state,
                 posts: [...state.posts, newPost],
-                newPostText: ''
+                // newPostText: ''
             };
         };
         case 'SET-USER-PROFILE': {
@@ -46,17 +39,10 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
     }
 };
 
-export const addPostActionCreator = (postMessage: string) => {
+export const addPostActionCreator = (newPostText: string) => {
     return {
         type: "ADD-NEW-POST",
-        postMessage: postMessage
-    } as const
-};
-
-export const upDateNewPostActionCreator = (newText: string) => {
-    return {
-        type: 'UP-DATE-NEW-POST',
-        newText: newText
+        newPostText
     } as const
 };
 

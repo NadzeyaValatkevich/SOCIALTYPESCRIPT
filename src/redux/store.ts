@@ -3,9 +3,8 @@ import {
     profileReducer,
     setStatus,
     setUserProfile,
-    upDateNewPostActionCreator
 } from "./profile-Reducer";
-import {addNewMessageActionCreator, dialogsReducer, updateNewMessageActionCreator} from "./dialogs-Reducer";
+import {addNewMessageActionCreator, dialogsReducer} from "./dialogs-Reducer";
 import {sidebarReducer} from "./sidebar-Reducer";
 import {setAuthUserData} from "@/redux/auth-reducer";
 
@@ -27,7 +26,6 @@ type PostType = {
 
 type ProfilePageType = {
     posts: Array<PostType>,
-    newPostText: string,
     profile: null,
     status: string
 };
@@ -35,7 +33,6 @@ type ProfilePageType = {
 export type DialogsPageType = {
     dialogs: Array<DialogType>,
     messages: Array<MessageType>,
-    newMessagesText: string
 };
 
 export type SidebarPageType = {};
@@ -48,9 +45,7 @@ export type RootStateType = {
 
 export type StoreType = {
     _state: RootStateType,
-    updateNewMessage: (messageText: string) => void,
     addNewMessage: (newMessage: string) => void,
-    updateNewPost: (newText: string) => void,
     addNewPost: (postMessage: string) => void,
     _rerenderTree: () => void,
     subscribe: (observer: () => void) => void,
@@ -60,9 +55,7 @@ export type StoreType = {
 
 export type ActionsType =
     ReturnType<typeof addPostActionCreator>
-    | ReturnType<typeof upDateNewPostActionCreator>
     | ReturnType<typeof addNewMessageActionCreator>
-    | ReturnType<typeof updateNewMessageActionCreator>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setAuthUserData>
     | ReturnType<typeof setStatus>
@@ -74,7 +67,6 @@ export const store: StoreType = {
                 {id: 1, message: 'Hi, how are you', likesCount: 20},
                 {id: 2, message: "It's my first post", likesCount: 10}
             ],
-            newPostText: '',
             profile: null,
             status: ''
         },
@@ -91,21 +83,13 @@ export const store: StoreType = {
                 {id: 2, message: 'How are you?'},
                 {id: 3, message: 'Good morning!'}
             ],
-            newMessagesText: ''
+            // newMessagesBody: ''
         },
         sidebarPage: {}
-    },
-    updateNewMessage(messageText: string) {
-        this._state.dialogsPage.newMessagesText = messageText
-        this._rerenderTree()
     },
     addNewMessage(newMessage: string) {
         const newMessageFriend: MessageType = {id: 4, message: newMessage};
         this._state.dialogsPage.messages.push(newMessageFriend);
-        this._rerenderTree();
-    },
-    updateNewPost(newText: string) {
-        this._state.profilePage.newPostText = newText;
         this._rerenderTree();
     },
     addNewPost(postMessage: string) {
