@@ -8,7 +8,7 @@ type ProfileStatusType = {
 export const ProfileStatus = (props:ProfileStatusType) => {
 
     const [editMode, setEditMode] = useState(false);
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState(props.status);
 
 
     const activeEditMode = () => {
