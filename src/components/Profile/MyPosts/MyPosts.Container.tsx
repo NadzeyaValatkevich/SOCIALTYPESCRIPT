@@ -6,7 +6,6 @@ import {Dispatch} from "redux";
 
 type MapStatePropsType = {
     posts: Array<PostType>,
-    // newPostText: string
 };
 
 type MapDispatchPropsType = {
