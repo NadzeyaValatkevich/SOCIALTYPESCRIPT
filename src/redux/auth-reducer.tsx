@@ -1,5 +1,6 @@
 import {ActionsType} from "./store";
 import {authAPI} from "../api/api";
+import {Dispatch} from "redux";
 
 type initialStateAuthType = {
     id: null | string,
@@ -19,31 +20,49 @@ export const authReducer = (state: initialStateAuthType = initialState, action: 
         case 'SET_USER_DATA':
             return {
                 ...state,
-                ...action.data,
-                isAuth: true
+                ...action.payload,
             }
         default:
             return state;
     }
 };
 
-export const setAuthUserData = (id: null | string, email: null | string, login: null | string) => {
+export const setAuthUserData = (id: null | string, email: null | string, login: null | string, isAuth:boolean) => {
     return {
         type: 'SET_USER_DATA',
-        data: {
-            id: id,
-            email: email,
-            login: login,
+        payload: {
+            id,
+            email,
+            login,
+            isAuth
         }
     } as const;
 };
 
-export const getAuthUsersData = () => (dispatch: any) => {
+export const getAuthUserData = () => (dispatch: Dispatch) => {
     authAPI.me()
-        .then(data => {
-            if(data.resultCode === 0) {
-                let {id, email, login} = data.data;
-                dispatch(setAuthUserData(id, email, login))
+        .then(res => {
+            if(res.data.resultCode === 0) {
+                let {id, email, login} = res.data.data;
+                dispatch(setAuthUserData(id, email, login, true))
+            }
+        })
+};
+
+export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: any) => {
+    authAPI.login(email, password, rememberMe)
+        .then(res => {
+            if(res.data.resultCode === 0) {
+                dispatch(getAuthUserData())
+            }
+        })
+};
+
+export const logout = () => (dispatch: Dispatch) => {
+    authAPI.logout()
+        .then(res => {
+            if(res.data.resultCode === 0) {
+                dispatch(setAuthUserData(null, null, null, false))
             }
         })
 };
