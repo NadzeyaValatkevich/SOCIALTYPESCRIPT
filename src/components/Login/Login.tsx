@@ -5,12 +5,14 @@ import {required} from "../../utils/valodators/validators";
 import {connect} from "react-redux";
 import {login} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
-import {AppStateType} from "@/redux/redux-store";
+import {AppStateType} from "../../redux/redux-store";
+import style from '../common/FormsControl/FormsControls.module.css'
 
 type FormDataType = {
     email: string,
     password: string,
-    rememberMe: boolean
+    rememberMe: boolean,
+    error: string | null
 }
 export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props:InjectedFormProps<FormDataType>) => {
     return (
@@ -38,6 +40,9 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props:Injec
                     />
                     <span>Remember me</span>
                 </div>
+                {
+                  props.error &&  <div className={style.formSummaryError}>{props.error}</div>
+                }
                 <div>
                     <button>Login</button>
                 </div>
@@ -48,7 +53,6 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props:Injec
 const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
 
 const Login = (props: LoginPropsType) => {
-    console.log(props)
     const onSubmit = (formData: FormDataType) => {
         props.login(formData.email, formData.password, formData.rememberMe)
     };
