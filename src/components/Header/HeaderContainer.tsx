@@ -1,14 +1,10 @@
 import React from 'react';
 import Header from "./Header";
 import {connect} from "react-redux";
-import {getAuthUserData, logout} from "../../redux/auth-reducer";
+import {logout} from "../../redux/auth-reducer";
 import {AppStateType} from "../../redux/redux-store";
 
 export class HeaderContainer extends React.Component< HeaderPropsType, {}> {
-
-    componentDidMount() {
-        this.props.getAuthUserData()
-    };
 
     render() {
         return <Header
@@ -23,7 +19,6 @@ type MapStateToPropsType = {
 };
 
 type MapDispatchToPropsType = {
-    getAuthUserData: () => void,
     logout: () => void
 };
 
@@ -34,5 +29,5 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType  => ({
     login: state.auth.login,
 });
 
-export const NewHeaderContainer = connect (mapStateToProps, {getAuthUserData, logout}) (HeaderContainer)
+export const NewHeaderContainer = connect (mapStateToProps, {logout}) (HeaderContainer)
 

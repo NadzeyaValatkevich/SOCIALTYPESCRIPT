@@ -1,4 +1,5 @@
 import {usersAPI} from "../api/api";
+import {Dispatch} from "redux";
 
 export type UsersType = {
     id: number,
@@ -138,7 +139,7 @@ export const toggleFollowingProgress =  ((isFetching: boolean, userId: number) =
 
 //ThunkCreators
 export const getUsers = (currentPage:number, pageSize: number) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch) => {
         //начинаю показывать крутелку
         dispatch(toggleIsFetching(true));
         //начни получать мне пользователей
@@ -152,7 +153,7 @@ export const getUsers = (currentPage:number, pageSize: number) => {
 };
 
 export const follow = (userId: number) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch) => {
         dispatch(toggleFollowingProgress(true, userId));
         usersAPI.followAPI(userId)
             .then(data => {
@@ -165,7 +166,7 @@ export const follow = (userId: number) => {
 };
 
 export const unfollow = (userId: number) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch) => {
         dispatch(toggleFollowingProgress(true, userId));
         usersAPI.unfollowAPI(userId)
             .then(data => {

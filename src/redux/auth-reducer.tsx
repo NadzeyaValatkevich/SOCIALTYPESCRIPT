@@ -4,7 +4,7 @@ import {Dispatch} from "redux";
 import {stopSubmit} from "redux-form";
 
 type initialStateAuthType = {
-    id: null | string,
+    id: null | number,
     email: null | string,
     login: null | string,
     isAuth: boolean
@@ -28,7 +28,7 @@ export const authReducer = (state: initialStateAuthType = initialState, action: 
     }
 };
 
-export const setAuthUserData = (id: null | string, email: null | string, login: null | string, isAuth:boolean) => {
+export const setAuthUserData = (id: null | number, email: null | string, login: null | string, isAuth:boolean) => {
     return {
         type: 'SET_USER_DATA',
         payload: {
@@ -41,7 +41,7 @@ export const setAuthUserData = (id: null | string, email: null | string, login: 
 };
 
 export const getAuthUserData = () => (dispatch: Dispatch) => {
-    authAPI.me()
+    return authAPI.me()
         .then(res => {
             if(res.data.resultCode === 0) {
                 let {id, email, login} = res.data.data;
