@@ -138,12 +138,13 @@ export const toggleFollowingProgress =  ((isFetching: boolean, userId: number) =
 });
 
 //ThunkCreators
-export const getUsers = (currentPage:number, pageSize: number) => {
+export const requestUsers = (page:number, pageSize: number) => {
     return (dispatch: Dispatch) => {
         //начинаю показывать крутелку
         dispatch(toggleIsFetching(true));
+        dispatch(setCurrentPage(page))
         //начни получать мне пользователей
-        usersAPI.getUsers(currentPage, pageSize)
+        usersAPI.getUsers(page, pageSize)
             .then(data => {
                 dispatch(toggleIsFetching(false));
                 dispatch(setUsers(data.items));
