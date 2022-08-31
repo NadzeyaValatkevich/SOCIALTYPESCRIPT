@@ -1,5 +1,5 @@
 import {
-    addPostActionCreator,
+    addPostActionCreator, deletePost,
     profileReducer,
     setStatus,
     setUserProfile,
@@ -59,6 +59,7 @@ export type ActionsType =
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setAuthUserData>
     | ReturnType<typeof setStatus>
+    | ReturnType<typeof deletePost>
 
 export const store: StoreType = {
     _state: {
