@@ -9,23 +9,25 @@ type FormsControlType<T> = {
     type?: string
 };
 
-const FormControl = (props: FormsControlType<TextareaHTMLAttributes<HTMLTextAreaElement> | InputHTMLAttributes<HTMLInputElement>>) => {
-    const hasError = props.meta.touched && props.meta.error;
+const FormControl = ({input, meta: {touched, error}, children}: FormsControlType<TextareaHTMLAttributes<HTMLTextAreaElement> | InputHTMLAttributes<HTMLInputElement>>) => {
+    const hasError = touched && error;
     return (
         <div className={styles.formControl + " " + (hasError ? styles.error : "")}>
             <div>
-                {props.children}
+                {children}
             </div>
-            {hasError && <span>{props.meta.error}</span>}
+            {hasError && <span>{error}</span>}
         </div>
     )
 };
 
 export const Textarea = (props: FormsControlType<TextareaHTMLAttributes<HTMLTextAreaElement>>) => {
-    return <FormControl {...props}> <textarea {...props.input} {...props}/> </FormControl>
-}
+    const {input, meta, ...restProps} = props;
+    return <FormControl {...props}> <textarea {...input} {...restProps}/> </FormControl>
+};
 
 export const Input = (props: FormsControlType<InputHTMLAttributes<HTMLInputElement>>) => {
-    console.log(props)
-    return <FormControl {...props}><input {...props.input} {...props} /></FormControl>
-}
+    const {input, meta, ...restProps} = props;
+    return <FormControl {...props}><input {...input} {...restProps} /></FormControl>
+};
+

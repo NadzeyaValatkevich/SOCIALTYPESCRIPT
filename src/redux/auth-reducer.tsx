@@ -3,6 +3,8 @@ import {authAPI} from "../api/api";
 import {Dispatch} from "redux";
 import {stopSubmit} from "redux-form";
 
+const SET_USER_DATA = 'samurai-network/auth/SET_USER_DATA'
+
 type initialStateAuthType = {
     id: null | number,
     email: null | string,
@@ -18,7 +20,7 @@ const initialState = {
 
 export const authReducer = (state: initialStateAuthType = initialState, action: ActionsType): initialStateAuthType => {
     switch (action.type) {
-        case 'SET_USER_DATA':
+        case SET_USER_DATA:
             return {
                 ...state,
                 ...action.payload,
@@ -28,9 +30,9 @@ export const authReducer = (state: initialStateAuthType = initialState, action: 
     }
 };
 
-export const setAuthUserData = (id: null | number, email: null | string, login: null | string, isAuth:boolean) => {
+export const setAuthUserData = (id: null | number, email: null | string, login: null | string, isAuth: boolean) => {
     return {
-        type: 'SET_USER_DATA',
+        type: SET_USER_DATA,
         payload: {
             id,
             email,
@@ -40,34 +42,27 @@ export const setAuthUserData = (id: null | number, email: null | string, login: 
     } as const;
 };
 
-export const getAuthUserData = () => (dispatch: Dispatch) => {
-    return authAPI.me()
-        .then(res => {
-            if(res.data.resultCode === 0) {
-                let {id, email, login} = res.data.data;
-                dispatch(setAuthUserData(id, email, login, true))
-            }
-        })
+export const getAuthUserData = () => async (dispatch: Dispatch) => {
+    const response = await authAPI.me();
+    if (response.data.resultCode === 0) {
+        let {id, email, login} = response.data.data;
+        dispatch(setAuthUserData(id, email, login, true))
+    }
 };
 
-export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: any) => {
-
-    authAPI.login(email, password, rememberMe)
-        .then(res => {
-            if(res.data.resultCode === 0) {
-                dispatch(getAuthUserData())
-            } else {
-                const message = res.data.messages.length > 0 ? res.data.messages[0] : "Some err"
-                dispatch(stopSubmit('login', message))
-            }
-        })
+export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: any) => {
+    const response = await authAPI.login(email, password, rememberMe)
+    if (response.data.resultCode === 0) {
+        dispatch(getAuthUserData())
+    } else {
+        const message = response.data.messages.length > 0 ? response.data.messages[0] : "Some err"
+        dispatch(stopSubmit('login', message))
+    }
 };
 
-export const logout = () => (dispatch: Dispatch) => {
-    authAPI.logout()
-        .then(res => {
-            if(res.data.resultCode === 0) {
-                dispatch(setAuthUserData(null, null, null, false))
-            }
-        })
+export const logout = () => async (dispatch: Dispatch) => {
+    const response = await authAPI.logout()
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserData(null, null, null, false))
+    }
 };

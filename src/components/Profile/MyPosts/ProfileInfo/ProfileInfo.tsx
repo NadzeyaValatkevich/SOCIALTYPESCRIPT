@@ -3,15 +3,15 @@ import {ProfileMiddlePropsType} from '../../Profile'
 import {Preloader} from "../../../common/preloader/Preloader";
 import {ProfileStatus} from './ProfileStatus'
 
-const ProfileInfo = (props: ProfileMiddlePropsType) => {
-    if(!props.profile) {
+const ProfileInfo = ({profile, status, updateStatus}: ProfileMiddlePropsType) => {
+    if(!profile) {
         return <Preloader />
     } else {
         return (
             <div>
                 <div className={'descriptionBlock'}>
-                    <img src={props.profile.photos.large}/>
-                    <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
+                    <img src={profile.photos.large}/>
+                    <ProfileStatus status={status} updateStatus={updateStatus}/>
                 </div>
 
             </div>
